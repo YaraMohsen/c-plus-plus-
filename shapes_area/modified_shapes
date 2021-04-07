@@ -1,0 +1,299 @@
+
+#include <iostream>
+#include"graphics.h"
+
+int * pInt = NULL;
+
+using namespace std;
+
+
+class Shape
+{
+protected:
+    int color;
+public:
+    void setColor(int _color)
+    {
+        color=_color;
+    }
+    int getColor()
+    {
+        return color;
+    }
+    Shape()
+    {
+        color=0;
+    }
+    Shape(int _c)
+    {
+        color=_c;
+    }
+    ~Shape() {};
+    virtual void Draw()=0;
+};
+
+class Point
+{
+    int x,y;
+public:
+    void setX(int _x)
+    {
+        x=_x;
+    }
+    void setY(int _y)
+    {
+        y=_y;
+    }
+    int getX()
+    {
+        return x;
+    }
+    int getY()
+    {
+        return y;
+    }
+    Point()
+    {
+        x=y=0;
+    }
+    Point(int _x,int _y)
+    {
+        x=_x;
+        y=_y;
+    }
+    Point(const Point &old)
+    {
+        x=old.x;
+        y=old.y;
+    }
+    ~Point() {}
+    //Point& operator=(const Point &right){}
+};
+
+class Line:public Shape
+{
+    Point start,end_1;
+public:
+    void setStart(Point _start)
+    {
+        start=_start;
+    }
+    void setEnd(Point _end)
+    {
+        end_1=_end;
+    }
+    Point getStart()
+    {
+        return start;
+    }
+    Point getEnd()
+    {
+        return end_1;
+    }
+    Line():start(),end_1(),Shape()
+    {
+
+    }
+    Line(int x1,int y1,int x2,int y2,int _color):start(x1,y1),end_1(x2,y2),Shape(_color)
+    {
+    }
+    Line(Point _start,Point _end, int _color):start(_start),end_1(_end),Shape(_color)
+    {
+    }
+    Line(const Line &old )
+    {
+        start=old.start;
+        end_1=old.end_1;
+        color=old.color;
+    }
+    ~Line() {}
+
+    void Draw()override
+    {
+
+        setcolor(color);
+        line(start.getX(),start.getY(),end_1.getX(),end_1.getY());
+    }
+};
+
+class Rect:public Shape
+{
+    Point ul,lr;
+
+public:
+    //setter
+    void setUL(Point _ul)
+    {
+        ul=_ul;
+    }
+    void setLR(Point _lr)
+    {
+        lr=_lr;
+    }
+
+
+    Rect(int x1,int y1,int x2,int y2,int _color):ul(x1,y1),lr(x2,y2),Shape(_color)
+    {
+
+
+    }
+    Rect(Point _ul,Point _lr,int _c):ul(_ul),lr(_lr),Shape(_c)
+    {
+
+    }
+    Rect():ul(),lr()
+    {
+        color=0;
+
+
+    }
+    void Draw() override
+    {
+        setcolor(color);
+        rectangle(ul.getX(),ul.getY(),lr.getX(),lr.getY());
+    }
+};
+class Circle:public Shape
+{
+    Point c;
+    int red;
+    int color;
+
+public:
+
+    void setc(Point _c)
+    {
+        c=_c;
+    }
+
+
+    Circle(int x1,int y1,int _color,int _red):c(x1,y1)
+    {
+        color=_color;
+        red=_red;
+
+    }
+
+    Circle(Point _c,int _color,int _red):c(_c)
+    {
+        color=_color;
+        red=_red;
+
+    }
+    Circle():c()
+    {
+        color=0;
+        red=0;
+    }
+    void Draw()override
+    {
+        setcolor(color);
+        circle(c.getX(),c.getY(),red);
+    }
+
+};
+
+class Tri:public Shape
+{
+    //3 points
+    Point ul,lr, b;
+    int color;
+
+public:
+
+    void setUL(Point _ul)
+    {
+        ul=_ul;
+    }
+    void setLR(Point _lr)
+    {
+        lr=_lr;
+    }
+    void setb(Point _b)
+    {
+        b=_b;
+    }
+
+
+    Tri(int x1,int y1,int x2,int y2,int x3,int y3,int _color):ul(x1,y1),lr(x2,y2),b(x3,y3)
+    {
+        color=_color;
+
+    }
+    Tri(Point _ul,Point _lr,Point _b,int _c):ul(_ul),lr(_lr),b(_b)
+    {
+        color=_c;
+
+    }
+    Tri():ul(),lr(),b()
+    {
+        color=0;
+    }
+
+    void Draw()override
+    {
+        setcolor(color);
+        line(ul.getX(),ul.getY(),lr.getX(),lr.getY());
+        line(ul.getX(),ul.getY(),b.getX(),b.getY());
+        line(b.getX(),b.getY(),lr.getX(),lr.getY());
+
+    }
+};
+class Picture
+{
+
+
+    Shape **ptrShape;
+    int shapesSize;
+
+public:
+     Picture()
+    {
+        ptrShape=NULL;
+        shapesSize=0;
+    }
+    Picture(Shape **_ptrShape,int _shapeSize)
+    {
+        ptrShape=_ptrShape;
+        shapesSize=_shapeSize;
+    }
+
+    void setShapes(Shape **_ptrShape,int _shapeSize)
+    {
+        ptrShape=_ptrShape;
+        shapesSize=_shapeSize;
+    }
+    void Paint()
+    {
+        for(int i=0;i<shapesSize;i++)
+        {
+            ptrShape[i]->Draw();
+        }
+    }
+
+
+
+
+};
+
+
+int main()
+{
+    initgraph();
+
+
+    Line L1(366,100,295,330,5);
+    Line L2 (416,100,480,330,5);
+    Rect rec[2]= {Rect(325,390,480,450,5),Rect(370,350,420,390,5)};
+    Circle abagora1(390,280,5,150);
+    Circle abagora2(390,100,5,50);
+    Tri d(440,430,450,410,460,430,6);
+
+Shape * pshapes[9]={&L1,&L2,&rec[2],rec,&rec[1],&rec[2],&abagora1,&abagora2,&d};
+
+  Picture p(pshapes,9);
+  p.Paint();
+
+
+    return 0;
+}
