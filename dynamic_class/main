@@ -1,0 +1,197 @@
+#include <iostream>
+using namespace std;
+class Stack
+{
+
+    int top_of_stack;
+    int size_stack;
+    int *stacktank;
+
+public:
+    Stack()
+    {
+        cout<<"S_Const"<<endl;
+        top_of_stack=0;
+        size_stack=5;
+        stacktank=new int[size_stack];
+
+    }
+    Stack(int _size)
+    {
+        cout<<"S_Const"<<endl;
+        top_of_stack=0;
+        size_stack=_size;
+        stacktank=new int[size_stack];
+    }
+    Stack (const Stack &old )
+    {
+
+        cout<<"copy"<<endl;
+
+        this->top_of_stack=old.top_of_stack;
+        this->size_stack=old.size_stack;
+        this->stacktank=new int[size_stack];
+        for(int i=0;i<top_of_stack;i++)
+        {
+            stacktank[i]=old.stacktank[i];
+        }
+    }
+    ~Stack()
+    {
+        cout<<"S_Dest"<<endl;
+
+        for(int i=0; i<size_stack; i++)
+        {
+            stacktank[i]=-1;
+        }
+
+        delete [] stacktank;
+    }
+    int isFull()
+    {
+        return top_of_stack==size_stack;
+    }
+    int isEmpty()
+    {
+        return top_of_stack==0;
+    }
+
+
+    void push(int _data )
+    {
+
+        if(top_of_stack==size_stack)
+        {
+
+        }
+        else
+        {
+            stacktank[top_of_stack]=_data;
+            top_of_stack++;
+
+        }
+    }
+    int pop(void)
+    {
+        if(isEmpty()==top_of_stack) {}
+        else
+        {
+            top_of_stack--;
+            return stacktank[top_of_stack];
+        }
+    }
+
+    Stack& operator=(const Stack& right)
+    {
+
+        delete [] this->stacktank;
+
+        this->top_of_stack=right.top_of_stack;
+        this->size_stack=right.size_stack;
+        this->stacktank=new int[size_stack];
+
+        for(int i=0;i<top_of_stack;i++)
+        {
+            stacktank[i]=right.stacktank[i];
+        }
+        return *this;
+    }
+Stack operator+(const Stack& right)
+    {
+
+        Stack retVal;
+        retVal.size_stack=this->size_stack+right.size_stack;
+        retVal.top_of_stack=this->top_of_stack+right.top_of_stack;
+
+         for(int i=0;i<(this->top_of_stack);i++)
+        {
+            retVal.stacktank[i]=stacktank[i];
+        }
+        int y=0;
+         for(int x=(this->top_of_stack);x<retVal.top_of_stack;x++)
+        {
+             retVal.stacktank[x]=right.stacktank[y];
+             y++;
+
+        }
+
+        return retVal;
+
+
+    }
+
+    int operator==(const Stack& right){
+
+    int res=0;
+    int top=0;
+
+
+     if((this->top_of_stack) ==(right.top_of_stack)){
+
+    for(int i=0;i<top_of_stack;i++){
+       res=res^(this->stacktank[i])^(right.stacktank[i]);
+    }
+
+    }
+
+    if(res>0)
+        return 0;
+    else if(res==0)
+        return 1;
+
+
+    }
+
+  Stack reverseStack()
+    {
+        Stack retVal;
+        retVal.size_stack=size_stack;
+        retVal.top_of_stack=top_of_stack;
+
+         for(int i=0;i<top_of_stack;i++)
+        {
+             retVal.stacktank[top_of_stack-i-1]=stacktank[i];
+             //cout<<"this is rev"<<retVal.stacktank[top_of_stack-i-1]<<endl;
+        }
+
+        return retVal;
+
+    }
+
+
+    friend void printStack(Stack param);
+};
+
+void printStack(Stack param)
+{
+ cout<<"this is the printstack"<<endl;
+
+    for(int i=0;i<param.top_of_stack;i++)
+    {
+        cout<<param.stacktank[i]<<endl;
+    }
+}
+int main()
+{
+  Stack s1,s2,s3;  //4 ctor ,5 dest
+        s1.push(2);
+        s1.push(6);
+        s1.push(10);
+        s1.push(11);
+
+        printStack(s1);
+
+       // cout<<(s1.reverseStack()).pop()<<endl;         //4 ctor ,6 dest
+s2=s1.reverseStack();
+printStack(s2);
+
+int x= (s1==s2);
+cout<<"x="<<x<<endl;
+
+s3=s1+s2;
+printStack(s3);
+
+        //printStack(s2);
+
+    return 0;
+}
