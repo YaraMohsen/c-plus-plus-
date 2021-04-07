@@ -1,0 +1,86 @@
+#include <iostream>
+
+using namespace std;
+
+template<class DT>
+class Stack
+{
+
+    int top_of_stack;
+    int size_stack;
+    DT *stacktank;
+
+public:
+    Stack()
+    {
+        cout<<"S_Const"<<endl;
+        top_of_stack=0;
+        size_stack=5;
+        stacktank=new DT[size_stack];
+
+    }
+    Stack(int _size)
+    {
+        cout<<"S_Const"<<endl;
+        top_of_stack=0;
+        size_stack=_size;
+        stacktank=new DT[size_stack];
+    }
+    ~Stack()
+    {
+        cout<<"S_Dest"<<endl;
+
+        for(int i=0; i<size_stack; i++)
+        {
+            stacktank[i]=-1;
+        }
+
+        delete [] stacktank;
+    }
+    int isFull()
+    {
+        return top_of_stack==size_stack;
+    }
+    int isEmpty()
+    {
+        return top_of_stack==0;
+    }
+
+
+    void push(DT _data );
+    DT pop(void);
+
+};
+int main(){
+
+Stack<char> s2(10);
+
+return 0;
+
+}
+
+template <class DT>
+ void Stack<DT>::push(DT _data )
+ {
+
+        if(top_of_stack==size_stack)
+        {
+
+        }
+        else
+        {
+            stacktank[top_of_stack]=_data;
+            top_of_stack++;
+
+        }
+    }
+template <class DT>
+ DT Stack<DT>::pop(void)
+    {
+        if(isEmpty()==top_of_stack) {}
+        else
+        {
+            top_of_stack--;
+            return stacktank[top_of_stack];
+        }
+    }
