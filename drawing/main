@@ -1,0 +1,239 @@
+#include <iostream>
+#include"graphics.h"
+
+using namespace std;
+class Point
+{
+    int x,y;
+public:
+    void setX(int _x)
+    {
+        x=_x;
+    }
+    void setY(int _y)
+    {
+        y=_y;
+    }
+    int getX()
+    {
+        return x;
+    }
+    int getY()
+    {
+        return y;
+    }
+
+    Point()  //#3 point start    //#4Point end
+    {
+        x=y=0;
+    }
+    Point(int _x,int _y)
+    {
+        x=_x;
+        y=_y;
+    }
+    Point(const Point &old)
+    {
+        x=old.x;
+        y=old.y;
+    }
+    ~Point() {}
+
+};
+
+class Line
+{
+    Point start,end_l;
+    int color;
+public:
+    void setColor(int _color)
+    {
+        color=_color;
+    }
+    int getColor()
+    {
+        return color;
+    }
+    void setStart(Point _start)
+    {
+        start=_start;
+    }
+    void setEnd(Point _end)
+    {
+        end_l=_end;
+    }
+    Point getStart()
+    {
+        return start;
+    }
+    Point getEnd()
+    {
+        return end_l;
+    }
+    Line()
+    {
+
+        color=0;
+    }
+
+    Line(int x1,int y1,int x2,int y2,int _color):start(x1,y1),end_l(x2,y2)
+    {
+
+
+        color=_color;
+    }
+    Line(Point _start,Point _end, int _color)
+    {
+        start=_start;
+        end_l=_end;
+        color=_color;
+    }
+    Line(const Line &old )
+    {
+        start=old.start;
+        end_l=old.end_l;
+        color=old.color;
+    }
+    ~Line() {}
+    void Draw()
+    {
+
+        setcolor(color);
+        line(start.getX(),start.getY(),end_l.getX(),end_l.getY());
+    }
+};
+
+class Rect
+{
+    Point ul,lr;
+    int color;
+public:
+
+    void setUL(Point _ul)
+    {
+        ul=_ul;
+    }
+    void setLR(Point _lr)
+    {
+        lr=_lr;
+    }
+
+    Rect(int x1,int y1,int x2,int y2,int _color):ul(x1,y1),lr(x2,y2)
+    {
+        color=_color;
+    }
+    Rect(Point _ul,Point _lr,int _c):ul(_ul),lr(_lr)
+    {
+        color=_c;
+    }
+    Rect():ul(),lr()
+    {
+        color=0;
+    }
+    void Draw()
+    {
+        setcolor(color);
+        rectangle(ul.getX(),ul.getY(),lr.getX(),lr.getY());
+    }
+};
+
+class Circle
+{
+    Point c;
+    int red;
+    int color;
+public:
+
+    void setc(Point _c)
+    {
+        c=_c;
+    }
+
+    Circle(int x1,int y1,int _color,int _red):c(x1,y1)
+    {
+        color=_color;
+        red=_red;
+    }
+
+    Circle(Point _c,int _color,int _red):c(_c)
+    {
+        color=_color;
+        red=_red;
+    }
+    Circle():c()
+    {
+        color=0;
+        red=0;
+    }
+    void Draw()
+    {
+        setcolor(color);
+        circle(c.getX(),c.getY(),red);
+    }
+
+};
+
+class Tri
+{
+    //3 points
+    Point ul,lr, b;
+    int color;
+public:
+
+    void setUL(Point _ul)
+    {
+        ul=_ul;
+    }
+    void setLR(Point _lr)
+    {
+        lr=_lr;
+    }
+    void setb(Point _b)
+    {
+        b=_b;
+    }
+
+    Tri(int x1,int y1,int x2,int y2,int x3,int y3,int _color):ul(x1,y1),lr(x2,y2),b(x3,y3)
+    {
+        color=_color;
+    }
+    Tri(Point _ul,Point _lr,Point _b,int _c):ul(_ul),lr(_lr),b(_b)
+    {
+        color=_c;
+    }
+    Tri():ul(),lr(),b()
+    {
+        color=0;
+    }
+
+    void Draw()
+    {
+        setcolor(color);
+        line(ul.getX(),ul.getY(),lr.getX(),lr.getY());
+        line(ul.getX(),ul.getY(),b.getX(),b.getY());
+        line(b.getX(),b.getY(),lr.getX(),lr.getY());
+
+    }
+};
+int main()
+{
+    initgraph();
+
+    Rect table_1(150,390,650,450,5),leg(370,350,420,390,5);
+
+    Tri d(600,430,610,410,620,430,6);
+
+    Circle abagora(390,280,5,150),abagora_head(390,100,5,50);
+
+    Line L_1(366,100,295,330,5),L_2(416,100,480,330,5);
+
+    table_1.Draw();
+    leg.Draw();
+    d.Draw();
+    abagora.Draw();
+    abagora_head.Draw();
+    L_1.Draw();
+    L_2.Draw();
+    return 0;
+}
+
