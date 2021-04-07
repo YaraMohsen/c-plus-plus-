@@ -1,0 +1,111 @@
+
+#include <iostream>
+#include"graphics.h"
+
+
+int * pInt = NULL;
+
+using namespace std;
+
+class GeoShape
+{
+
+    protected:
+    double dim1;
+    double dim2;
+    public:
+
+    GeoShape()
+    {
+        dim1=dim2=0;
+    }
+    GeoShape(int _dim1,int _dim2)
+    {
+        dim1=_dim1;dim2=_dim2;
+    }
+    GeoShape(const GeoShape &old)
+    {
+        dim1=old.dim1;dim2=old.dim2;
+    }
+    ~GeoShape(){}
+    virtual double Area()=0;
+
+
+};
+
+class Rect:public GeoShape
+{
+    public:
+    Rect(){}
+    Rect(int d1,int d2):GeoShape(d1,d2){}
+    Rect(Rect &old):GeoShape(old){}
+    ~Rect(){}
+    double Area() override
+    {
+        return dim1* dim2;
+    }
+};
+
+class Square:public Rect
+{
+
+    public:
+    Square(){}
+    Square(int d):Rect(d,d){}
+
+};
+class Circle:public GeoShape
+{
+
+    public:
+    Circle(){}
+    Circle(int r):GeoShape(r,r){}
+    double Area() override
+    {
+        return 3.14*dim1*dim2;
+    }
+
+    void setDim1(int _dim1){dim1=dim2=_dim1;}
+    void setDim2(int _dim2){dim1=dim2=_dim2;}
+};
+
+class Tri:public GeoShape
+{
+    public:
+    Tri(){}
+    Tri(int b,int h):GeoShape(b,h){}
+    double Area() override
+    {
+        return 0.5 * dim1* dim2;
+    }
+};
+
+double SumOfAreas(GeoShape **gptr,int size)
+{
+    int sum=0;
+    for (int i = 0; i < 5; i++)
+    {
+        sum+=gptr[i]->Area();
+        cout<<sum<<endl;
+    }
+    return sum;
+}
+
+main()
+{
+
+
+ initgraph();
+
+    Rect rec(1,2);
+    Circle c(7);
+
+
+    GeoShape *gptr[2]={&rec,&c};
+
+    cout<<SumOfAreas(gptr,2);
+
+
+
+
+}
